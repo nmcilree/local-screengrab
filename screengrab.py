@@ -9,24 +9,29 @@ options = FirefoxOptions()
 options.add_argument("--headless")
 
 # Get the manifest
-url = 'http://77.68.77.144/greenminds/manifest.json'
-response = requests.get(url)
-manifest = response.json()
+url_base = 'http://77.68.77.144/screens/'
 i = 1
-for item in manifest:
-    # Initialise Selenium
-    driver = webdriver.Firefox(options=options)
-    driver.set_window_size(800, 554)
 
-    # Get screenshow
-    print(item['url'])
-    driver.get(item['url'])
-    time.sleep(2)
-    driver.get_screenshot_as_file("/home/greenminds-screengrab/{}.png".format(i))
-    driver.quit()
-    # Save to Apache root
-    Image.open("/home/greenminds-screengrab/{}.png".format(i)).save("/var/www/html/{}.bmp".format(i))
-    os.remove("/home/greenminds-screengrab/{}.png".format(i))
-    i += 1
-    driver.quit()
+directory = os.fsencode('/var/www/html/screens')
 
+for file in os.listdir(directory):
+    filename = os.fsdecode(file)
+    if filename.endswith(".html") or filename.endswith(".htm"):
+        url = "{}{}".format(url_base, filename)
+        print(url)
+
+        # Initialise Selenium
+        driver = webdriver.Firefox(options=options)
+        driver.set_window_size(800, 554)
+
+        # Get screenshow
+        driver.get(url)
+        time.sleep(2)
+        driver.get_screenshot_as_file("/home/greenminds-screengrab/{}.png".format(i))
+        driver.quit()
+
+        # Save to Apache root
+        Image.open("/home/greenminds-screengrab/{}.png".format(i)).save("/var/www/html/{}.bmp".format(i))
+        os.remove("/home/greenminds-screengrab/{}.png".format(i))
+        i += 1
+        driver.quit()
