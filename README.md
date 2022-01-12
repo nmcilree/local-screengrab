@@ -24,3 +24,12 @@ tar -xzf <downloaded file>
 
 ## Run script ##
 python3.7 screengrab.py 
+  
+## Install FTP Server ##
+https://phoenixnap.com/kb/install-ftp-server-on-ubuntu-vsftpd
+  
+sudo apt install vsftpd
+
+sudo systemctl start vsftpd
+
+sudo systemctl enable vsftpd
