@@ -1,6 +1,6 @@
+import sys
 import time
 import os
-import requests
 from PIL import Image
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium import webdriver
@@ -13,6 +13,7 @@ url_base = 'http://77.68.77.144/screens/'
 i = 1
 
 directory = os.fsencode('/var/www/html/screens')
+
 
 for file in os.listdir(directory):
     filename = os.fsdecode(file)
@@ -33,5 +34,7 @@ for file in os.listdir(directory):
         # Save to Apache root
         Image.open("/home/greenminds-screengrab/{}.png".format(i)).save("/var/www/html/{}.bmp".format(i))
         os.remove("/home/greenminds-screengrab/{}.png".format(i))
+        img = Image.open("/var/www/html/{}.bmp".format(i)).convert('L')
+        img.save("/var/www/html/{}.bmp".format(i))
         i += 1
         driver.quit()
