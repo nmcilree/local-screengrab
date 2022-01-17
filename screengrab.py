@@ -14,12 +14,11 @@ i = 1
 
 directory = os.fsencode('/var/www/html/screens')
 
-
 for file in os.listdir(directory):
     filename = os.fsdecode(file)
     if filename.endswith(".html") or filename.endswith(".htm"):
         url = "{}{}".format(url_base, filename)
-        print(url)
+        i = filename.rsplit(".", 1)[0]
 
         # Initialise Selenium
         driver = webdriver.Firefox(options=options)
@@ -36,5 +35,5 @@ for file in os.listdir(directory):
         os.remove("/home/greenminds-screengrab/{}.png".format(i))
         img = Image.open("/var/www/html/{}.bmp".format(i)).convert('L')
         img.save("/var/www/html/{}.bmp".format(i))
-        i += 1
+        #i += 1
         driver.quit()
