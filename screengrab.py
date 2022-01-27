@@ -26,7 +26,7 @@ for file in os.listdir(directory):
 
         # Get screenshow
         driver.get(url)
-        time.sleep(2)
+        time.sleep(3)
         driver.get_screenshot_as_file("/home/greenminds-screengrab/{}.png".format(i))
         driver.quit()
 
